@@ -1,0 +1,59 @@
+﻿@model AjaxForm.Models.CoModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Convesion </h2>
+
+
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "my-form" }))
+{
+    @Html.TextAreaFor(m => m.broj);
+    <input id="btn1" type="button" value="ConvertToEuro" />
+}
+Rezultat <div id="result"></div> eura
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "my-form1" }))
+{
+    @Html.TextAreaFor(m => m.broj);
+    <input id="btn2" type="button" value="ConvertToDinar" />
+}
+Rezultat <div id="result1"></div> dinara
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("#btn1").on("click", function () {
+                var data = $("#my-form").serialize();
+
+                $.ajax({
+                    url: "/Home/ConvertToEuro",
+                    type: "POST",
+                    data: data,
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    success: function (response) {
+                        $("#result").html(response);
+                    }
+                });
+            })
+
+            $("#btn2").on("click", function () {
+                var data = $("#my-form1").serialize();
+
+                $.ajax({
+                    url: "/Home/ConvertToDinar",
+                    type: "POST",
+                    data: data,
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    success: function (response) {
+                        $("#result1").html(response);
+                    }
+                });
+            })
+        })
+    </script>
+}
+
+
+
